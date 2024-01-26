@@ -1,0 +1,11 @@
+{
+  "read": "Read",
+  "location": "Location",
+  "features": "Features",
+  "loading": "Loading..",
+  "name": "Name",
+  "recordAttendance": "Record Attendance",
+  "attendanceWaring": "Warning ⛔ Once you record your attendance, it will get locked!",
+  "leaveRequestText": "More info about your request!"
+
+}
