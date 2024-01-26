@@ -8,18 +8,18 @@ import '../../../../../config/utils/demoModels/StaffStroageModel.dart';
 import '../../../../../config/utils/managers/app_values.dart';
 import 'Builders/staff_info_card.dart';
 
-class MyFiles extends StatefulWidget {
-  const MyFiles({
+class StaffStatistics extends StatefulWidget {
+  const StaffStatistics({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<MyFiles> createState() => _MyFilesState();
+  State<StaffStatistics> createState() => _StaffStatisticsState();
 }
 
 List staffStorageCards = [];
 
-class _MyFilesState extends State<MyFiles> {
+class _StaffStatisticsState extends State<StaffStatistics> {
   @override
   void initState() {
     getData();

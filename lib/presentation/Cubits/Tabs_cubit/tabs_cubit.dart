@@ -1,8 +1,12 @@
+import 'package:admin/presentation/Modules/SideBarTabs/Announcement/announcement_page.dart';
 import 'package:admin/presentation/Modules/SideBarTabs/StaffAttendance/staff_attendance_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Modules/SideBarTabs/Dashboard/dashboard_screen.dart';
+import '../../Modules/SideBarTabs/Events/event_page.dart';
+import '../../Modules/SideBarTabs/ManageStaff/staff_attendance_page.dart';
+import '../../Modules/SideBarTabs/StaffEleave/staff_eleave_page.dart';
 
 part 'tabs_state.dart';
 
@@ -50,13 +54,13 @@ class TabsCubit extends Cubit<TabsState> {
       case Tabs.StaffAttendanceTab:
         return StaffAttendancePage();
       case Tabs.StaffEleaveTab:
-        return DashboardScreen(); //TODO change later and down also>>
+        return StaffEleavePage(); //TODO change later and down also>>
       case Tabs.AnnouncementTab:
-        return DashboardScreen();
+        return AnnouncementPage();
       case Tabs.EventsTab:
-        return DashboardScreen();
+        return EventsPage();
       case Tabs.ManageStaffTab:
-        return DashboardScreen();
+        return ManageStaffPage();
       case Tabs.SettingsTab:
         return DashboardScreen();
       case Tabs.ProfileTab:

@@ -1,26 +1,26 @@
 import 'package:admin/data/remote/RemoteData_cubit/RemoteData_cubit.dart';
-import 'package:admin/domain/Models/UserModel.dart';
-import 'package:admin/presentation/Modules/SideBarTabs/Components/History/attend_history_screen.dart';
+import 'package:admin/domain/Models/eLeaveModel.dart';
 import 'package:admin/presentation/Shared/Components.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../config/utils/managers/app_values.dart';
-import '../../../../../config/utils/styles/app_colors.dart';
-import '../../../../Cubits/navigation_cubit/navi_cubit.dart';
+import '../../../../config/utils/managers/app_values.dart';
+import '../../../../config/utils/styles/app_colors.dart';
+import '../../../Cubits/navigation_cubit/navi_cubit.dart';
+import 'EleaveHistory/eleave_history_screen.dart';
 
-class AllStaffDisplay extends StatefulWidget {
-  const AllStaffDisplay({
+class EleaveStaffDisplay extends StatefulWidget {
+  const EleaveStaffDisplay({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<AllStaffDisplay> createState() => _AllStaffDisplayState();
+  State<EleaveStaffDisplay> createState() => _EleaveStaffDisplayState();
 }
 
-List<UserModel> staffMembers = [];
+List<EleaveModel> staffMembers = [];
 
-class _AllStaffDisplayState extends State<AllStaffDisplay> {
+class _EleaveStaffDisplayState extends State<EleaveStaffDisplay> {
   @override
   void initState() {
     getData();
@@ -28,7 +28,7 @@ class _AllStaffDisplayState extends State<AllStaffDisplay> {
   }
 
   getData() async {
-    staffMembers = await RemoteDataCubit.get(context).getAllStaff(context);
+    staffMembers = await RemoteDataCubit.get(context).getEleaveStaff();
     if (mounted) {
       setState(() {});
     }
@@ -46,7 +46,7 @@ class _AllStaffDisplayState extends State<AllStaffDisplay> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "All Staff Members",
+            "E-leave Staff Members",
             style: Theme.of(context).textTheme.titleMedium,
           ),
           staffMembers.isNotEmpty
@@ -59,10 +59,10 @@ class _AllStaffDisplayState extends State<AllStaffDisplay> {
                       // minWidth: 600,
                       columns: [
                         DataColumn(
-                          label: Text("Name"),
+                          label: Text("Time Applied"),
                         ),
                         DataColumn(
-                          label: Text("Last Active"),
+                          label: Text("Description"),
                         ),
                         DataColumn(
                           label: Text("Other"),
@@ -76,14 +76,17 @@ class _AllStaffDisplayState extends State<AllStaffDisplay> {
                     ),
                   ),
                 )
-              : loadingAnimation()
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(child: Text("There are no E-Leave Requests")),
+                )
         ],
       ),
     );
   }
 }
 
-DataRow staffInfoDataRow(UserModel userModel, context) {
+DataRow staffInfoDataRow(EleaveModel eleaveModel, context) {
   return DataRow(
     cells: [
       DataCell(
@@ -91,19 +94,19 @@ DataRow staffInfoDataRow(UserModel userModel, context) {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppPadding.p16),
-              child: Text(userModel.name),
+              child: Text(getDateTimeToDay(eleaveModel.dateTime)),
             ),
           ],
         ),
       ),
-      DataCell(Text(getDateTimeToDay(userModel.lastLogin))),
+      DataCell(Text(eleaveModel.requestInfo)),
       DataCell(InkWell(
         hoverColor: Colors.transparent,
         onTap: () async {
           // var model = await RemoteDataCubit.get(context)
           //     .getUserAttendanceHistory(userModel.userID, context);
           NaviCubit.get(context).navigate(
-              context, AttendanceHistoryScreen(userUID: userModel.userID));
+              context, EleaveHistoryScreen(userUID: eleaveModel.userUID));
           // NaviCubit.get(context).navigate(context, StaffInfoScreen(model.last));
         },
         child: Text(

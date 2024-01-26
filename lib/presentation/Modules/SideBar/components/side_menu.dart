@@ -32,22 +32,30 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Staff E-Leave",
             svgSrc: "assets/icons/menu_task.svg",
-            press: () {},
+            press: () {
+              TabsCubit.get(context).setTabScreen(Tabs.StaffEleaveTab);
+            },
           ),
           DrawerListTile(
             title: "Announcements",
             svgSrc: "assets/icons/menu_doc.svg",
-            press: () {},
+            press: () {
+              TabsCubit.get(context).setTabScreen(Tabs.AnnouncementTab);
+            },
           ),
           DrawerListTile(
             title: "Events",
             svgSrc: "assets/icons/menu_store.svg",
-            press: () {},
+            press: () {
+              TabsCubit.get(context).setTabScreen(Tabs.EventsTab);
+            },
           ),
           DrawerListTile(
             title: "Manage Staff",
             svgSrc: "assets/icons/menu_notification.svg",
-            press: () {},
+            press: () {
+              TabsCubit.get(context).setTabScreen(Tabs.ManageStaffTab);
+            },
           ),
           DrawerListTile(
             title: "Profile",

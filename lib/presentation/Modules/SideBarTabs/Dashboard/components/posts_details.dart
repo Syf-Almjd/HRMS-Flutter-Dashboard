@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../../../config/utils/managers/app_values.dart';
 import '../../../../../config/utils/styles/app_colors.dart';
 import '../../../../../data/remote/RemoteData_cubit/RemoteData_cubit.dart';
+import '../../../../Cubits/Tabs_cubit/tabs_cubit.dart';
 import 'Builders/posts_info_card.dart';
 import 'chart.dart';
 
@@ -76,7 +77,8 @@ class _PostsDetailsState extends State<PostsDetails> {
                         date:
                             "Updated ${getDateTimeToDay(announcementPosts.last.date)}",
                         onTap: () {
-                          showToast("text", AppColors.primaryColor, context);
+                          TabsCubit.get(context)
+                              .setTabScreen(Tabs.AnnouncementTab);
                         }),
                     PostsInfoCard(
                         svgSrc: "assets/icons/Documents.svg",
@@ -85,7 +87,7 @@ class _PostsDetailsState extends State<PostsDetails> {
                         date:
                             "Updated ${getDateTimeToDay(eventsPosts.last.date)}",
                         onTap: () {
-                          showToast("text", AppColors.primaryColor, context);
+                          TabsCubit.get(context).setTabScreen(Tabs.EventsTab);
                         }),
                     PostsInfoCard(
                         svgSrc: "assets/icons/Documents.svg",
@@ -94,7 +96,8 @@ class _PostsDetailsState extends State<PostsDetails> {
                         date:
                             "Last updated: ${getDateTimeToDay(announcementPosts.last.date)}",
                         onTap: () {
-                          showToast("text", AppColors.primaryColor, context);
+                          TabsCubit.get(context)
+                              .setTabScreen(Tabs.AnnouncementTab);
                         }),
                     PostsInfoCard(
                         svgSrc: "assets/icons/Documents.svg",
@@ -103,7 +106,7 @@ class _PostsDetailsState extends State<PostsDetails> {
                         date:
                             "Last updated: ${getDateTimeToDay(eventsPosts.last.date)}",
                         onTap: () {
-                          showToast("text", AppColors.primaryColor, context);
+                          TabsCubit.get(context).setTabScreen(Tabs.EventsTab);
                         }),
                   ],
                 ),

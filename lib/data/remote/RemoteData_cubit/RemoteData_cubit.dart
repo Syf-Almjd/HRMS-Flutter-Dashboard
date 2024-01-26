@@ -168,6 +168,31 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
     }
   }
 
+  Future<List<EleaveModel>> getEleaveStaff() async {
+    emit(GettingData());
+    List<EleaveModel> data = [];
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection(AppConstants.eLeaveStaffCollection)
+          .get();
+
+      for (var element in querySnapshot.docs) {
+        await FirebaseFirestore.instance
+            .collection(AppConstants.eLeaveStaffCollection)
+            .doc(element.id)
+            .collection(AppConstants.eLeaveRecordCollection)
+            .get()
+            .then((value) =>
+                data.add(EleaveModel.fromJson(value.docs.last.data())));
+      }
+      emit(GetDataSuccessful());
+      return data;
+    } on FirebaseException {
+      emit(GetDataError());
+      rethrow;
+    }
+  }
+
   Future<List<UserModel>> getAllStaff(context) async {
     emit(GettingData());
     List<UserModel> data = [];
@@ -209,7 +234,6 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
             .then(
                 (value) => value.data()![AppConstants.lastAttend].toString()));
       }
-      print(data);
       emit(GetDataSuccessful());
       return data;
     } on FirebaseException {
@@ -269,30 +293,31 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
     }
   }
 
-  Future<List<Object>> getUserEleaveHistory(context) async {
+  Future<List<EleaveModel>> getUserEleaveHistory(uid) async {
     emit(GettingData());
-    String userName = await LocalDataCubit.get(context)
-        .getSharedMap(AppConstants.savedUser)
-        .then((value) => value['name']);
 
-    String collectionPath = getCurrentUserEleave(userName);
     List<Object> data = [];
-
     try {
-      final querySnapshot =
-          await FirebaseFirestore.instance.collection(collectionPath).get();
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection(AppConstants.eLeaveStaffCollection)
+          .doc(uid)
+          .collection(AppConstants.eLeaveRecordCollection)
+          .get();
 
       for (var element in querySnapshot.docs) {
         final documentSnapshot = await FirebaseFirestore.instance
-            .collection(collectionPath)
+            .collection(AppConstants.eLeaveStaffCollection)
+            .doc(uid)
+            .collection(AppConstants.eLeaveRecordCollection)
             .doc(element.id)
             .get();
         if (documentSnapshot.data() != null) {
           data.add(EleaveModel.fromJson(documentSnapshot.data()!));
         }
       }
+
       emit(GetDataSuccessful());
-      return data;
+      return data.cast<EleaveModel>().reversed.toList();
     } on FirebaseException {
       emit(GetDataError());
       rethrow;

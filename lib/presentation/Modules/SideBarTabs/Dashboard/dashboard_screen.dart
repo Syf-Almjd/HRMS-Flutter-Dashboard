@@ -2,7 +2,7 @@ import 'package:admin/config/utils/managers/app_values.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 
-import '../Components/AllStaff/all_staff.dart';
+import '../Components/AllStaff/all_staff_display.dart';
 import '../Components/Header/header.dart';
 import 'components/posts_details.dart';
 import 'components/staff_info.dart';
@@ -25,7 +25,7 @@ class DashboardScreen extends StatelessWidget {
                   flex: 5,
                   child: Column(
                     children: [
-                      MyFiles(),
+                      StaffStatistics(),
                       SizedBox(height: AppPadding.p16),
                       AllStaffDisplay(),
                       if (Responsive.isMobile(context))

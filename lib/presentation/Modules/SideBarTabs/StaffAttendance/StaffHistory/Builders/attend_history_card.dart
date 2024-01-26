@@ -47,7 +47,7 @@ class AttendanceHistoryCard extends StatelessWidget {
                   ListTile(
                     leading: Icon(Icons.date_range_outlined),
                     title: Text('Date Attended'),
-                    subtitle: Text(getDateTimeToDay(attendanceRecord.userUID)),
+                    subtitle: Text(getDateTimeToDay(attendanceRecord.dateTime)),
                   ),
                   SizedBox(height: 10),
                   ListTile(

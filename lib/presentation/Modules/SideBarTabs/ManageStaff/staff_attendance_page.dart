@@ -1,11 +1,11 @@
-import 'package:admin/presentation/Modules/SideBarTabs/Components/AllStaff/all_staff_display.dart';
+import 'package:admin/presentation/Modules/SideBarTabs/ManageStaff/all_staff_info_dispaly.dart';
 import 'package:admin/presentation/Shared/Components.dart';
 import 'package:flutter/material.dart';
 
 import '../Components/Header/header.dart';
 
-class StaffAttendancePage extends StatelessWidget {
-  const StaffAttendancePage();
+class ManageStaffPage extends StatelessWidget {
+  const ManageStaffPage();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class StaffAttendancePage extends StatelessWidget {
       children: [
         Header(),
         getCube(5, context),
-        AllStaffDisplay(),
+        AllStaffInfoDisplay(),
       ],
     );
   }
