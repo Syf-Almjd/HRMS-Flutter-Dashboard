@@ -1,3 +1,4 @@
+import 'package:admin/config/utils/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../data/remote/RemoteData_cubit/RemoteData_cubit.dart';
@@ -41,12 +42,17 @@ class _LoginState extends State<Login> {
                 }
                 return null;
               },
+              style: TextStyle(color: AppColors.darkColor.withOpacity(0.7)),
               controller: email,
               decoration: InputDecoration(
+                labelStyle: TextStyle(color: AppColors.greyDark),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
                 labelText: "Email",
-                prefixIcon: const Icon(Icons.email_outlined),
+                prefixIcon: const Icon(
+                  Icons.email_outlined,
+                  color: AppColors.greyDark,
+                ),
               ),
               keyboardType: TextInputType.emailAddress,
             ),
@@ -62,20 +68,26 @@ class _LoginState extends State<Login> {
             },
             controller: pass,
             obscureText: _isObscure,
+            style: TextStyle(color: AppColors.darkColor.withOpacity(0.7)),
             decoration: InputDecoration(
+              labelStyle: TextStyle(color: AppColors.greyDark),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
               labelText: 'Password',
-              prefixIcon: const Icon(Icons.password_outlined),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _isObscure ? Icons.visibility : Icons.visibility_off,
+              prefixIcon: const Icon(Icons.password_outlined,
+                  color: AppColors.greyDark),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: IconButton(
+                  icon: Icon(
+                      _isObscure ? Icons.visibility : Icons.visibility_off,
+                      color: AppColors.greyDark),
+                  onPressed: () {
+                    setState(() {
+                      _isObscure = !_isObscure;
+                    });
+                  },
                 ),
-                onPressed: () {
-                  setState(() {
-                    _isObscure = !_isObscure;
-                  });
-                },
               ),
             ),
           ),

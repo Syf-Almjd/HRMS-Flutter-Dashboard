@@ -4,24 +4,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../../config/utils/demoModels/StaffStroageModel.dart';
 import '../../../../../../config/utils/managers/app_values.dart';
 import '../../../../../../config/utils/styles/app_colors.dart';
-import '../../../../../Shared/Components.dart';
 
 class StaffInfoCard extends StatelessWidget {
   const StaffInfoCard({
     Key? key,
     required this.info,
-    required this.onTap,
   }) : super(key: key);
 
   final StaffStorageInfo info;
-  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        showToast("Tab", AppColors.primaryColor, context);
-      },
+      onTap: info.onTap,
       child: Container(
         padding: EdgeInsets.all(AppPadding.p16),
         decoration: BoxDecoration(

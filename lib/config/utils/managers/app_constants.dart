@@ -20,21 +20,20 @@ abstract class AppConstants {
   static String userLocalAttendance = "userAttendance";
 
   ///Firebase Data
-  static String usersCollection = "users";
-  static String allStaffCollection = "dashboard/staff/members";
+  static String allStaffCollection = "Users/PPKstaff/members";
   static String lastAttend = "lastAttend";
 
   ///Attendance
   static String attendanceRecordCollection = "attendanceRecord";
-  static String attendanceStaffCollection = "/Tabs/attendance/staff";
+  static String attendanceStaffCollection = "/Tabs/attendance/PPKstaff";
 
   ///Eleave
   static String eLeaveRecordCollection = "eleaveRecord";
-  static String eLeaveStaffCollection = "/Tabs/eleave/staff";
+  static String eLeaveStaffCollection = "/Tabs/eleave/PPKstaff/";
 
   ///Other
-  static String announcementCollection = "/Tabs/announcement/posts";
-  static String eventsCollection = "/Tabs/events/posts";
+  static String announcementCollection = "/Tabs/announcement/PPKstaff";
+  static String eventsCollection = "/Tabs/events/PPKstaff";
   static String noPhotoUser = "NOPHOTO";
 
   static List<String> profileCardsName = [

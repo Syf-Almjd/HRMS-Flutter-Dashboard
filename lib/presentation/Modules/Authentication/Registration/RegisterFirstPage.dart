@@ -135,7 +135,9 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                           photoID: "",
                           userID: "",
                           lastLogin: "",
-                          address: address.text);
+                          address: address.text,
+                          lastAttend: "",
+                          lastEleave: "");
                       BlocProvider.of<UserRegisterBloc>(context)
                           .add(UpdateUserEvent(userData));
                       BlocProvider.of<RegisterNavigationBloc>(context)

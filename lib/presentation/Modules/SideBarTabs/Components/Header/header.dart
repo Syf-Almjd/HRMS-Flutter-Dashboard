@@ -1,4 +1,4 @@
-import 'package:admin/presentation/Shared/Components.dart';
+import 'package:admin/presentation/Cubits/Tabs_cubit/tabs_cubit.dart';
 import 'package:admin/responsive.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
@@ -51,10 +51,10 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        showToast("Profile", AppColors.primaryColor, context);
-      },
+    return PopupMenuButton(
+      // color: Colors.transparent,
+      splashRadius: 0,
+      enableFeedback: false,
       child: Container(
         margin: EdgeInsets.only(left: AppPadding.p16),
         padding: EdgeInsets.symmetric(
@@ -77,12 +77,28 @@ class ProfileCard extends StatelessWidget {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: AppPadding.p16 / 2),
-                child: Text("ADMIN"),
+                child: Text("Admin User"),
               ),
             Icon(Icons.keyboard_arrow_down),
           ],
         ),
       ),
+      itemBuilder: (BuildContext bc) {
+        return [
+          PopupMenuItem(
+            child: Text("Modify Profile"),
+            onTap: () {
+              TabsCubit.get(context).setTabScreen(Tabs.ProfileTab);
+            },
+          ),
+          PopupMenuItem(
+            child: Text("Logout"),
+            onTap: () {
+              TabsCubit.get(context).setTabScreen(Tabs.logoutTab);
+            },
+          ),
+        ];
+      },
     );
   }
 }

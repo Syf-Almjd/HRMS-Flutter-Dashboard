@@ -81,6 +81,12 @@ class AttendanceHistoryCard extends StatelessWidget {
                     title: Text('User Attendance Date'),
                     subtitle: Text(attendanceRecord.dateTime.toString()),
                   ),
+                  SizedBox(height: 10),
+                  ListTile(
+                    leading: Icon(Icons.location_city),
+                    title: Text('User City'),
+                    subtitle: Text(attendanceRecord.userCity),
+                  ),
                   SizedBox(height: 20),
                   Align(
                     alignment: Alignment.center,

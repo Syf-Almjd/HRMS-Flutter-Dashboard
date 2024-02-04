@@ -59,6 +59,9 @@ class _EleaveStaffDisplayState extends State<EleaveStaffDisplay> {
                       // minWidth: 600,
                       columns: [
                         DataColumn(
+                          label: Text("Name"),
+                        ),
+                        DataColumn(
                           label: Text("Time Applied"),
                         ),
                         DataColumn(
@@ -94,20 +97,18 @@ DataRow staffInfoDataRow(EleaveModel eleaveModel, context) {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppPadding.p16),
-              child: Text(getDateTimeToDay(eleaveModel.dateTime)),
+              child: Text(eleaveModel.userName),
             ),
           ],
         ),
       ),
+      DataCell(Text(getDateTimeToDay(eleaveModel.dateTime))),
       DataCell(Text(eleaveModel.requestInfo)),
       DataCell(InkWell(
         hoverColor: Colors.transparent,
         onTap: () async {
-          // var model = await RemoteDataCubit.get(context)
-          //     .getUserAttendanceHistory(userModel.userID, context);
           NaviCubit.get(context).navigate(
               context, EleaveHistoryScreen(userUID: eleaveModel.userUID));
-          // NaviCubit.get(context).navigate(context, StaffInfoScreen(model.last));
         },
         child: Text(
           "More...",

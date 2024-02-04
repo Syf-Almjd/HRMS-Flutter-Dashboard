@@ -1,5 +1,6 @@
 import 'package:admin/config/utils/managers/app_extensions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -11,6 +12,7 @@ import '../../config/utils/managers/app_assets.dart';
 import '../../config/utils/managers/app_constants.dart';
 import '../../config/utils/styles/app_colors.dart';
 import '../../data/remote/RemoteHttpRequest.dart';
+import '../Cubits/navigation_cubit/navi_cubit.dart';
 
 TextStyle fontAlmarai(
     {double? size, Color? textColor, FontWeight? fontWeight}) {
@@ -191,6 +193,42 @@ Widget getDivider(context) {
     thickness: 1,
     color: AppColors.darkColor.withOpacity(.3),
   );
+}
+
+///this will show the user a dialog
+Future showChoiceDialog(
+    {required BuildContext context,
+    String? title,
+    String? content,
+    required Function onYes,
+    Function? onNo}) {
+  return (showCupertinoDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title ?? ""),
+          content: Text(content ?? "Are you Sure?"),
+          actions: [
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                if (onNo != null) {
+                  onNo();
+                }
+                NaviCubit.get(context).pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                onYes();
+                NaviCubit.get(context).pop(context);
+              },
+            ),
+          ],
+        );
+      }));
 }
 
 //Validate Text field

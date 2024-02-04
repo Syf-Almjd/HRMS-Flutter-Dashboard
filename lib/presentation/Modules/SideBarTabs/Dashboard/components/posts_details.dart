@@ -71,7 +71,7 @@ class _PostsDetailsState extends State<PostsDetails> {
                     SizedBox(height: AppPadding.p16),
                     Chart(),
                     PostsInfoCard(
-                        svgSrc: "assets/icons/Documents.svg",
+                        svgSrc: "assets/icons/sound_file.svg",
                         title: "Latest Announcements",
                         numberOfPosts: getTodayPosts(announcementPosts),
                         date:
@@ -81,7 +81,7 @@ class _PostsDetailsState extends State<PostsDetails> {
                               .setTabScreen(Tabs.AnnouncementTab);
                         }),
                     PostsInfoCard(
-                        svgSrc: "assets/icons/Documents.svg",
+                        svgSrc: "assets/icons/one_drive.svg",
                         title: "Latest Events",
                         numberOfPosts: getTodayPosts(eventsPosts),
                         date:
@@ -90,7 +90,7 @@ class _PostsDetailsState extends State<PostsDetails> {
                           TabsCubit.get(context).setTabScreen(Tabs.EventsTab);
                         }),
                     PostsInfoCard(
-                        svgSrc: "assets/icons/Documents.svg",
+                        svgSrc: "assets/icons/doc_file.svg",
                         title: "Total Announcements",
                         numberOfPosts: announcementPosts.length.toString(),
                         date:
@@ -100,7 +100,7 @@ class _PostsDetailsState extends State<PostsDetails> {
                               .setTabScreen(Tabs.AnnouncementTab);
                         }),
                     PostsInfoCard(
-                        svgSrc: "assets/icons/Documents.svg",
+                        svgSrc: "assets/icons/media_file.svg",
                         title: "Total Events",
                         numberOfPosts: eventsPosts.length.toString(),
                         date:

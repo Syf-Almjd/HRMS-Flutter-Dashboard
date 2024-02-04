@@ -1,7 +1,10 @@
 import 'package:admin/domain/Models/eventModel.dart';
+import 'package:admin/presentation/Modules/SideBarTabs/Events/Screens/delete_event_screen.dart';
+import 'package:admin/presentation/Modules/SideBarTabs/Events/Screens/modify_event_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../config/utils/styles/app_colors.dart';
+import '../../../../Cubits/navigation_cubit/navi_cubit.dart';
 import '../../../../Shared/Components.dart';
 import '../../../../Shared/WidgetBuilders.dart';
 
@@ -22,7 +25,7 @@ class _EventListState extends State<EventList> {
       child: Container(
         width: getWidth(35, context),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(15),
           border: Border.all(color: AppColors.primaryColor),
         ),
         child: Padding(
@@ -55,7 +58,19 @@ class _EventListState extends State<EventList> {
               ListTile(
                 leading: Icon(Icons.location_on),
                 title: Text('Event Location'),
-                subtitle: Text(widget.eventModel.location),
+                subtitle: Text(widget.eventModel.locationName),
+              ),
+              SizedBox(height: 10),
+              ListTile(
+                leading: Icon(Icons.location_history),
+                title: Text('Location Latitude'),
+                subtitle: Text(widget.eventModel.locationLatitude),
+              ),
+              SizedBox(height: 10),
+              ListTile(
+                leading: Icon(Icons.location_searching_sharp),
+                title: Text('Location Longitude'),
+                subtitle: Text(widget.eventModel.locationLongitude),
               ),
               SizedBox(height: 10),
               Row(
@@ -64,22 +79,24 @@ class _EventListState extends State<EventList> {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
-                      // _launchInMaps(
-                      //   attendanceRecord.userLocationLatitude,
-                      //   attendanceRecord.userLocationLongitude);
+                      NaviCubit.get(context).navigate(
+                          context,
+                          ModifyEventScreen(
+                            eventModel: widget.eventModel,
+                          ));
                     },
                     icon: Icon(Icons.edit),
                     label: Text('Modify'),
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      // _launchInMaps(
-                      //   attendanceRecord.userLocationLatitude,
-                      //   attendanceRecord.userLocationLongitude);
+                      NaviCubit.get(context).navigate(
+                          context, DeleteEventScreen(widget.eventModel));
                     },
                     icon: Icon(Icons.delete),
                     label: Text('delete'),
                   ),
+                  SizedBox(height: 10),
                 ],
               )
             ],

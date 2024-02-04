@@ -34,6 +34,7 @@ class _AnnouncementDisplayState extends State<AnnouncementDisplay> {
       List<AnnouncementModel> data = await RemoteDataCubit.get(context)
           .getAnnouncementPostsData()
           .then((value) => value.cast<AnnouncementModel>().toList());
+
       if (mounted) {
         setState(() {
           announcementList = data;

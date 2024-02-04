@@ -91,7 +91,13 @@ DataRow staffInfoDataRow(UserModel userModel, context) {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppPadding.p16),
-              child: Text(userModel.name),
+              child: Wrap(
+                children: [
+                  attendanceIcon(userModel.lastAttend),
+                  getCube(1, context),
+                  Text(userModel.name),
+                ],
+              ),
             ),
           ],
         ),
@@ -113,4 +119,17 @@ DataRow staffInfoDataRow(UserModel userModel, context) {
       ))
     ],
   );
+}
+
+Icon attendanceIcon(date) {
+  try {
+    return (DateTime.parse(date).day == DateTime.now().day)
+        ? Icon(
+            Icons.where_to_vote_rounded,
+            color: AppColors.greenColor,
+          )
+        : Icon(Icons.wrong_location, color: Colors.red);
+  } catch (e) {
+    return Icon(Icons.wrong_location, color: Colors.red);
+  }
 }

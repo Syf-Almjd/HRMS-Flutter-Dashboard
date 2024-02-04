@@ -57,7 +57,7 @@ class _EventsDisplayState extends State<EventsDisplay> {
                         eventModel: eventModels[index],
                       )),
             )
-          : getSkeletonLoading(type: PostsType.events),
+          : getSkeletonLoading(type: PostsType.announcements),
     );
   }
 }

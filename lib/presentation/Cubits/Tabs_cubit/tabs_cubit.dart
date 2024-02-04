@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Modules/SideBarTabs/Dashboard/dashboard_screen.dart';
 import '../../Modules/SideBarTabs/Events/event_page.dart';
+import '../../Modules/SideBarTabs/Logout/logout_page.dart';
 import '../../Modules/SideBarTabs/ManageStaff/staff_attendance_page.dart';
 import '../../Modules/SideBarTabs/StaffEleave/staff_eleave_page.dart';
 
@@ -35,8 +36,8 @@ class TabsCubit extends Cubit<TabsState> {
       case Tabs.ManageStaffTab:
         emit(ManageStaffTab());
         break;
-      case Tabs.SettingsTab:
-        emit(SettingsTab());
+      case Tabs.logoutTab:
+        emit(LogoutTab());
         break;
       case Tabs.ProfileTab:
         emit(ProfileTab());
@@ -61,8 +62,8 @@ class TabsCubit extends Cubit<TabsState> {
         return EventsPage();
       case Tabs.ManageStaffTab:
         return ManageStaffPage();
-      case Tabs.SettingsTab:
-        return DashboardScreen();
+      case Tabs.logoutTab:
+        return LogOutPage();
       case Tabs.ProfileTab:
         return DashboardScreen();
       default:

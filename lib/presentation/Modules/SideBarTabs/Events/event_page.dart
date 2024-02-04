@@ -1,4 +1,6 @@
+import 'package:admin/presentation/Cubits/navigation_cubit/navi_cubit.dart';
 import 'package:admin/presentation/Modules/SideBarTabs/Dashboard/components/posts_details.dart';
+import 'package:admin/presentation/Modules/SideBarTabs/Events/Screens/add_event_screen.dart';
 import 'package:admin/presentation/Shared/Components.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +28,9 @@ class EventsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    NaviCubit.get(context).navigate(context, AddEventScreen());
+                  },
                   icon: Icon(Icons.add_circle_outline_rounded),
                   label: Text("Add New Event")),
             ),
@@ -42,12 +46,10 @@ class EventsPage extends StatelessWidget {
               child: EventsDisplay(),
             ),
             getCube(3, context),
-            Container(
-              alignment: Alignment.topRight,
-              child: PostsDetails(),
-              height: getHeight(80, context),
-              width: getWidth(30, context),
-            )
+            Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                    width: getWidth(28, context), child: PostsDetails()))
           ],
         ),
       ],

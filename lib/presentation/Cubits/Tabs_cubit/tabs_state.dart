@@ -7,7 +7,7 @@ enum Tabs {
   AnnouncementTab,
   EventsTab,
   ManageStaffTab,
-  SettingsTab,
+  logoutTab,
   ProfileTab
 }
 
@@ -40,8 +40,8 @@ class ManageStaffTab extends TabsState {
   Tabs get appTab => Tabs.ManageStaffTab;
 }
 
-class SettingsTab extends TabsState {
-  Tabs get appTab => Tabs.SettingsTab;
+class LogoutTab extends TabsState {
+  Tabs get appTab => Tabs.logoutTab;
 }
 
 class ProfileTab extends TabsState {

@@ -1,6 +1,6 @@
 abstract class AppAssets {
   static const String assetsLogoTransparent = 'assets/images/logo.png';
-  static const String assetsProfilePicture = 'assets/logo/profilePicture.jpg';
+  static const String assetsProfilePicture = 'assets/images/profilePicture.jpg';
   static const String assetsTFLogo = 'assets/images/logo.png';
 
   static const List<String> homeTabLogo = [

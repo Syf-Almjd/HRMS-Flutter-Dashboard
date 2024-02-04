@@ -1,3 +1,6 @@
+import 'package:admin/presentation/Cubits/navigation_cubit/navi_cubit.dart';
+import 'package:admin/presentation/Modules/SideBarTabs/ManageStaff/Screens/add_staff_screen.dart';
+import 'package:admin/presentation/Modules/SideBarTabs/ManageStaff/Screens/delete_staff_screen.dart';
 import 'package:admin/presentation/Shared/WidgetBuilders.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +10,7 @@ import '../../../../config/utils/styles/app_colors.dart';
 import '../../../../data/remote/RemoteData_cubit/RemoteData_cubit.dart';
 import '../../../../domain/Models/UserModel.dart';
 import '../../../Shared/Components.dart';
+import 'Screens/modify_staff_screen.dart';
 
 class AllStaffInfoDisplay extends StatefulWidget {
   const AllStaffInfoDisplay();
@@ -45,6 +49,26 @@ class _AllStaffInfoDisplayState extends State<AllStaffInfoDisplay> {
           Text(
             "Manage Staff Members",
             style: Theme.of(context).textTheme.titleMedium,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child:
+                    Text("", style: TextStyle(fontSize: getHeight(3, context))),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextButton.icon(
+                    onPressed: () {
+                      NaviCubit.get(context)
+                          .navigate(context, AddStaffScreen());
+                    },
+                    icon: Icon(Icons.add_circle_outline_rounded),
+                    label: Text("Add New Staff")),
+              ),
+            ],
           ),
           staffMembers.isNotEmpty
               ? DelayedDisplay(
@@ -149,16 +173,21 @@ DataRow staffInfoDataRow(UserModel userModel, context) {
           ))),
       DataCell(TextButton(
         onPressed: () {
-          showToast('More', AppColors.primaryColor, context);
+          NaviCubit.get(context).navigate(
+              context,
+              ModifyStaffScreen(
+                userModel: userModel,
+              ));
         },
         child: Text(
-          "More",
+          "Edit",
           style: TextStyle(color: AppColors.primaryColor),
         ),
       )),
       DataCell(TextButton(
         onPressed: () {
-          showToast('Delete', AppColors.primaryColor, context);
+          NaviCubit.get(context)
+              .navigate(context, DeleteStaffScreen(userModel));
         },
         child: Text(
           "Delete",

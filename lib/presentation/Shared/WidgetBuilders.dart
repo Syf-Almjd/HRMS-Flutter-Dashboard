@@ -282,8 +282,12 @@ Widget getSkeletonLoading({required PostsType type}) {
               return type == PostsType.announcements
                   ? Image.asset(
                       AppAssets.appAnnouncementsLoading,
+                      fit: BoxFit.fill,
                     )
-                  : Image.asset(AppAssets.appEventsLoading);
+                  : Image.asset(
+                      AppAssets.appEventsLoading,
+                      fit: BoxFit.fill,
+                    );
             }));
       } else {
         return Container();
@@ -369,7 +373,7 @@ Widget loadingUnFocusScreen() {
 Widget chooseFile(context) {
   return Container(
     decoration: const BoxDecoration(
-        color: AppColors.primaryColor,
+        color: Colors.transparent,
         borderRadius: BorderRadius.all(Radius.circular(20))),
     child: Stack(
       children: [

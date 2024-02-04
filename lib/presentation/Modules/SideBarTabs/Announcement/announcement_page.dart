@@ -1,8 +1,10 @@
+import 'package:admin/presentation/Cubits/navigation_cubit/navi_cubit.dart';
 import 'package:admin/presentation/Modules/SideBarTabs/Dashboard/components/posts_details.dart';
 import 'package:admin/presentation/Shared/Components.dart';
 import 'package:flutter/material.dart';
 
 import '../Components/Header/header.dart';
+import 'Screens/add_announcement_screen.dart';
 import 'announcements_display.dart';
 
 class AnnouncementPage extends StatelessWidget {
@@ -26,7 +28,10 @@ class AnnouncementPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    NaviCubit.get(context)
+                        .navigate(context, AddAnnouncementScreen());
+                  },
                   icon: Icon(Icons.add_circle_outline_rounded),
                   label: Text("Add New Announcement")),
             ),
@@ -42,11 +47,10 @@ class AnnouncementPage extends StatelessWidget {
               child: AnnouncementDisplay(),
             ),
             getCube(3, context),
-            Container(
+            Align(
               alignment: Alignment.topRight,
-              child: PostsDetails(),
-              height: getHeight(80, context),
-              width: getWidth(30, context),
+              child: Container(
+                  width: getWidth(28, context), child: PostsDetails()),
             )
           ],
         ),

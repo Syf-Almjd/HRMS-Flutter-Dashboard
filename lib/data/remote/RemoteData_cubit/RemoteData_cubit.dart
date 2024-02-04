@@ -1,10 +1,11 @@
+import 'package:admin/config/utils/styles/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../domain/Models/UserModel.dart';
 import '../../../config/utils/managers/app_constants.dart';
-import '../../../domain/Models/UserModel.dart';
 import '../../../domain/Models/announcementModel.dart';
 import '../../../domain/Models/attendanceModel.dart';
 import '../../../domain/Models/eLeaveModel.dart';
@@ -38,7 +39,7 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
     emit(GettingData());
     try {
       final userSnapshot = await FirebaseFirestore.instance
-          .collection(AppConstants.usersCollection)
+          .collection(AppConstants.allStaffCollection)
           .doc(uid)
           .get();
 
@@ -84,16 +85,71 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
           .then((value) =>
               userModel.userID = FirebaseAuth.instance.currentUser!.uid);
       await FirebaseFirestore.instance
-          .collection(AppConstants.usersCollection)
+          .collection(AppConstants.allStaffCollection)
           .doc(userModel.userID)
           .set(userModel.toJson());
-      NaviCubit.get(context).navigateToHome(context);
+      showToast(
+          "User Successfully Registered!", AppColors.primaryColor, context);
       emit(GetDataSuccessful());
-    } catch (error) {
+    } on FirebaseException catch (error) {
       showToast("Error in RegisterMethod $error", Colors.red, context);
       emit(GetDataError());
     }
   }
+
+  Future<void> userUpdateData(UserModel userModel, context) async {
+    emit(GettingData());
+    try {
+      reAuthUser();
+      await FirebaseFirestore.instance
+          .collection(AppConstants.allStaffCollection)
+          .doc(userModel.userID)
+          .update(userModel.toJson());
+      showToast("User Successfully Updated!", AppColors.primaryColor, context);
+    } on FirebaseException catch (error) {
+      showToast("Error in RegisterMethod $error", Colors.red, context);
+      emit(GetDataError());
+    }
+  }
+
+  Future<void> userDeleteData(UserModel userModel, context) async {
+    emit(GettingData());
+    try {
+      reAuthUser();
+      await FirebaseFirestore.instance
+          .collection(AppConstants.allStaffCollection)
+          .doc(userModel.userID)
+          .delete();
+      await FirebaseFirestore.instance
+          .collection(AppConstants.attendanceStaffCollection)
+          .doc(userModel.userID)
+          .delete();
+      await FirebaseFirestore.instance
+          .collection(AppConstants.eLeaveStaffCollection)
+          .doc(userModel.userID)
+          .delete();
+
+      showToast(
+          "User Successfully Deleted, for your Security please Login Again",
+          AppColors.primaryColor,
+          context);
+      emit(GetDataSuccessful());
+    } on FirebaseException catch (error) {
+      showToast("Error in RegisterMethod $error", Colors.red, context);
+      emit(GetDataError());
+    }
+  }
+
+  Future<void> reAuthUser() async {
+    await FirebaseAuth.instance.currentUser?.reauthenticateWithCredential(
+        EmailAuthProvider.credential(
+            email: FirebaseAuth.instance.currentUser!.email.toString(),
+            password: "admin1")); //TODO CHANGE it
+  }
+
+  //annoucenment, evemts, attendence, eleave
+  // users, -> profile page
+  //dashboard ->
 
   Future<List<Object>> getEventPostsData() async {
     emit(GettingData());
@@ -120,6 +176,46 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
     }
   }
 
+  Future<void> updateEventPostsData(EventModel eventModel) async {
+    emit(GettingData());
+    try {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.eventsCollection)
+          .doc(eventModel.title)
+          .update(eventModel.toJson());
+      emit(GetDataSuccessful());
+    } on FirebaseException {
+      emit(GetDataError());
+    }
+  }
+
+  Future<void> addEventPostsData(EventModel eventModel) async {
+    emit(GettingData());
+    try {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.eventsCollection)
+          .doc(eventModel.title)
+          .set(eventModel.toJson());
+      emit(GetDataSuccessful());
+    } on FirebaseException {
+      emit(GetDataError());
+    }
+  }
+
+  Future<void> deleteEventPostsData(EventModel eventModel) async {
+    emit(GettingData());
+    try {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.eventsCollection)
+          .doc(eventModel.title)
+          .delete();
+      emit(GetDataSuccessful());
+    } on FirebaseException {
+      emit(GetDataError());
+    }
+  }
+
+//state bloc
   Future<List<Object>> getAnnouncementPostsData() async {
     emit(GettingData());
     List<Object> data = [];
@@ -142,6 +238,48 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
     } on FirebaseException {
       emit(GetDataError());
       rethrow;
+    }
+  }
+
+  Future<void> updateAnnouncementPostsData(
+      AnnouncementModel announcementModel) async {
+    emit(GettingData());
+    try {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.announcementCollection)
+          .doc(announcementModel.title)
+          .update(announcementModel.toJson());
+      emit(GetDataSuccessful());
+    } on FirebaseException {
+      emit(GetDataError());
+    }
+  }
+
+  Future<void> addAnnouncementPostsData(
+      AnnouncementModel announcementModel) async {
+    emit(GettingData());
+    try {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.announcementCollection)
+          .doc(announcementModel.title)
+          .set(announcementModel.toJson());
+      emit(GetDataSuccessful());
+    } on FirebaseException {
+      emit(GetDataError());
+    }
+  }
+
+  Future<void> deleteAnnouncementPostsData(
+      AnnouncementModel announcementModel) async {
+    emit(GettingData());
+    try {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.announcementCollection)
+          .doc(announcementModel.title)
+          .delete();
+      emit(GetDataSuccessful());
+    } on FirebaseException {
+      emit(GetDataError());
     }
   }
 
@@ -168,6 +306,115 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
     }
   }
 
+  // Future<List<EleaveModel>> getTodayStaffEleave() async {
+  //   emit(GettingData());
+  //   List<EleaveModel> data = [];
+  //   try {
+  //     final staffSnapshot = await FirebaseFirestore.instance
+  //         .collection('/Tabs/eleave/staff/')
+  //         .doc()
+  //         .collection("eleaveRecord")
+  //         .doc()
+  //         .get();
+  //     print("object");
+  //     print("object");
+  //     print("object");
+  //     print("object");
+  //     print("object");
+  //     print("object");
+  //     print("object");
+  //     print(staffSnapshot.reference);
+  //     // for (var staffDoc in staffSnapshot.docs) {
+  //     //   final eleaveRecordSnapshot = await staffDoc.reference
+  //     //       .collection('eleaveRecord')
+  //     //       .where('dateTime', isEqualTo: "2024-01-31 16:26:51.384754")
+  //     // .get();
+  //
+  //     // eleaveRecordSnapshot.docs.forEach((doc) {
+  //     //   if (doc.exists) {
+  //     //     data.add(EleaveModel.fromJson(doc.data()));
+  //     //   } else {
+  //     //     print(
+  //     //         "Document does not exist for staff ID: ${staffDoc.id} and date: ");
+  //     //   }
+  //     // });
+  //     // }
+  //
+  //     emit(GetDataSuccessful());
+  //     return data;
+  //   } catch (e) {
+  //     print("Error fetching eleave records: $e");
+  //     emit(GetDataError());
+  //     return [];
+  //   }
+  // }
+
+  // Future<List<EleaveModel>> getTodayStaffEleave() async {
+  //   try {
+  //     print("aaaaaaaaaaa");
+  //     final querySnapshot = await FirebaseFirestore.instance
+  //         // .collection("/Tabs/eleave/staff")
+  //         .collection("dashboard/staff/members")
+  //         .get();
+  //     // QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+  //     //     .collection("/Tabs/eleave/staff/")
+  //     //     .get();
+  //     List<String> documentNames = [];
+  //     QuerySnapshot asd = querySnapshot;
+  //     querySnapshot.docs.forEach((doc) {
+  //       documentNames.add(doc.id);
+  //     });
+  //     print("aaaaaaaaaaa");
+  //
+  //     for (var element in documentNames) {
+  //       asd = await FirebaseFirestore.instance
+  //           .collection("/Tabs/eleave/staff/")
+  //           .doc(element)
+  //           .collection("eleaveRecord")
+  //           .get();
+  //       print("aaaaaaaaaaa");
+  //     }
+  //     print("aaaaaaaaaaa");
+  //     asd.docs.forEach((element) {
+  //       print(element.id);
+  //       print(element.id);
+  //       print(element.id);
+  //       print(element.id);
+  //     });
+  //     print("aaaaaaaaaaa");
+  //     print(asd);
+  //     print(documentNames);
+  //     print(querySnapshot.docs);
+  //     return [];
+  //   } catch (e) {
+  //     print("Error: $e");
+  //     return [];
+  //   }
+  // }
+
+  //   emit(GettingData());
+  //   List<EleaveModel> data = [];
+  //
+  //   try {
+  //     final querySnapshot = await FirebaseFirestore.instance
+  //         .collection(AppConstants.eLeaveStaffCollection)
+  //         .get();
+  //     print(querySnapshot.docs);
+  //     for (var element in querySnapshot.docs) {
+  //       await FirebaseFirestore.instance
+  //           .collection(AppConstants.eLeaveStaffCollection)
+  //           .doc(element.id)
+  //           .get()
+  //           .then((value) => data.add(EleaveModel.fromJson(value.data()!)));
+  //     }
+  //     emit(GetDataSuccessful());
+  //     return data;
+  //   } on FirebaseException {
+  //     emit(GetDataError());
+  //     rethrow;
+  //   }
+  // }
+
   Future<List<EleaveModel>> getEleaveStaff() async {
     emit(GettingData());
     List<EleaveModel> data = [];
@@ -176,14 +423,17 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
           .collection(AppConstants.eLeaveStaffCollection)
           .get();
 
-      for (var element in querySnapshot.docs) {
-        await FirebaseFirestore.instance
-            .collection(AppConstants.eLeaveStaffCollection)
-            .doc(element.id)
+      for (var staffDoc in querySnapshot.docs) {
+        final eleaveRecordSnapshot = await staffDoc.reference
             .collection(AppConstants.eLeaveRecordCollection)
-            .get()
-            .then((value) =>
-                data.add(EleaveModel.fromJson(value.docs.last.data())));
+            .get();
+        eleaveRecordSnapshot.docs.forEach((doc) {
+          if (doc.exists &&
+              (DateTime.parse(doc.id).day == DateTime.now().day)) {
+            data.add(EleaveModel.fromJson(doc.data()));
+            return;
+          }
+        });
       }
       emit(GetDataSuccessful());
       return data;
@@ -217,9 +467,9 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
     }
   }
 
-  Future<List<String>> getLatestStaffAttendance(context) async {
+  Future<Map<String, DateTime>> getLatestStaffAttendance(context) async {
     emit(GettingData());
-    List<String> data = [];
+    Map<String, DateTime> data = {};
 
     try {
       final querySnapshot = await FirebaseFirestore.instance
@@ -227,12 +477,12 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
           .get();
 
       for (var element in querySnapshot.docs) {
-        data.add(await FirebaseFirestore.instance
+        data[element.id] = await FirebaseFirestore.instance
             .collection(AppConstants.attendanceStaffCollection)
             .doc(element.id)
             .get()
-            .then(
-                (value) => value.data()![AppConstants.lastAttend].toString()));
+            .then((value) => DateTime.parse(
+                value.data()![AppConstants.lastAttend].toString()));
       }
       emit(GetDataSuccessful());
       return data;
@@ -284,6 +534,7 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
           .collection(AppConstants.eLeaveRecordCollection)
           .doc(eleaveModel.dateTime)
           .set(eleaveModel.toJson());
+
       emit(GetDataSuccessful());
       return true;
     } on FirebaseException catch (error) {

@@ -1,5 +1,6 @@
 import 'package:admin/config/utils/styles/app_colors.dart';
 import 'package:admin/data/remote/RemoteData_cubit/RemoteData_cubit.dart';
+import 'package:admin/presentation/Cubits/Tabs_cubit/tabs_cubit.dart';
 import 'package:admin/presentation/Shared/Components.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
@@ -31,14 +32,17 @@ class _StaffStatisticsState extends State<StaffStatistics> {
     int staffAbsent = 0;
     var data =
         await RemoteDataCubit.get(context).getLatestStaffAttendance(context);
-    for (var element in data) {
-      if (DateTime.parse(element).day == DateTime.now().day) {
+    for (var element in data.values) {
+      if (element.day == DateTime.now().day) {
         staffAttend++;
       }
     }
     staffAbsent = data.length - staffAttend;
     staffStorageCards = [
       StaffStorageInfo(
+        onTap: () {
+          TabsCubit.get(context).setTabScreen(Tabs.StaffAttendanceTab);
+        },
         title: "Staff Attendance",
         numOfFiles: staffAttend.toString(),
         svgSrc: "assets/icons/Documents.svg",
@@ -47,6 +51,9 @@ class _StaffStatisticsState extends State<StaffStatistics> {
         percentage: getTotalPercent(staffAttend, data.length),
       ),
       StaffStorageInfo(
+        onTap: () {
+          TabsCubit.get(context).setTabScreen(Tabs.StaffAttendanceTab);
+        },
         title: "Staff Absence",
         numOfFiles: staffAbsent.toString(),
         svgSrc: "assets/icons/google_drive.svg",
@@ -83,7 +90,7 @@ class _StaffStatisticsState extends State<StaffStatistics> {
                 ),
               ),
               onPressed: () {
-                showToast("user register", AppColors.primaryColor, context);
+                TabsCubit.get(context).setTabScreen(Tabs.ManageStaffTab);
               },
               icon: Icon(Icons.add),
               label: Text("Add New staff"),
@@ -106,7 +113,11 @@ class _StaffStatisticsState extends State<StaffStatistics> {
   }
 
   getTotalPercent(int value, int total) {
-    return ((value ~/ (total / 100)));
+    try {
+      return ((value ~/ (total / 100)));
+    } catch (e) {
+      return 0;
+    }
   }
 }
 
@@ -140,7 +151,6 @@ class _FileInfoCardGridViewState extends State<FileInfoCardGridView> {
             ),
             itemBuilder: (context, index) => StaffInfoCard(
               info: staffStorageCards[index],
-              onTap: () {},
             ),
           )
         : loadingAnimation();

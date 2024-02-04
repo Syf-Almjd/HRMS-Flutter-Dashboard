@@ -164,6 +164,8 @@ class _RegisterSecondPageState extends State<RegisterSecondPage> {
                           phoneNumber: widget.previousUserData.name,
                           photoID: "",
                           userID: "",
+                          lastAttend: "",
+                          lastEleave: "",
                           address: widget.previousUserData.address,
                           lastLogin: "");
                       BlocProvider.of<UserRegisterBloc>(context)

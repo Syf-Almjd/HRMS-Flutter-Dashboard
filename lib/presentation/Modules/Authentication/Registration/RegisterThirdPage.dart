@@ -134,6 +134,8 @@ class _RegisterThirdPageState extends State<RegisterThirdPage> {
         phoneNumber: widget.previousUserData.phoneNumber,
         photoID: imageBytes,
         userID: "",
+        lastAttend: DateTime.now().toString(),
+        lastEleave: DateTime.now().toString(),
         lastLogin: timeNow.toString(),
         address: widget.previousUserData.address);
     RemoteDataCubit.get(context).userRegister(userData, context);
