@@ -1,17 +1,21 @@
+import 'package:admin/domain/Models/UserModel.dart';
 import 'package:admin/presentation/Cubits/Tabs_cubit/tabs_cubit.dart';
 import 'package:admin/responsive.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../config/utils/managers/app_values.dart';
 import '../../../../../config/utils/styles/app_colors.dart';
 import '../../../../../domain/controllers/MenuAppController.dart';
+import '../../../../Shared/ClockWidget.dart';
+import '../../../../Shared/WidgetBuilders.dart';
 
 class Header extends StatelessWidget {
+  final String tabName;
   const Header({
     Key? key,
+    required this.tabName,
   }) : super(key: key);
 
   @override
@@ -30,11 +34,11 @@ class Header extends StatelessWidget {
               ),
             if (!Responsive.isMobile(context))
               Text(
-                "Dashboard",
+                tabName,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             if (!Responsive.isMobile(context))
-              Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
+              Spacer(flex: Responsive.isDesktop(context) ? 1 : 1),
             Expanded(child: SearchField()),
             ProfileCard()
           ],
@@ -68,10 +72,14 @@ class ProfileCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.asset(
-              "assets/images/profilePicture.jpg",
-              height: 38,
-              fit: BoxFit.contain,
+            Container(
+              height: 40,
+              width: 40,
+              child: previewImage(
+                photoRadius: 200,
+                fileUser: UserModel.loadingUser().photoID,
+                context: context,
+              ),
             ),
             if (!Responsive.isMobile(context))
               Padding(
@@ -110,26 +118,30 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: "Search",
-        fillColor: AppColors.secondaryColor,
-        filled: true,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-        suffixIcon: InkWell(
-          onTap: () {},
-          child: Container(
-            padding: EdgeInsets.all(AppPadding.p16 * 0.75),
-            margin: EdgeInsets.symmetric(horizontal: AppPadding.p16 / 2),
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: AppColors.secondaryColor,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+                child: Icon(
+              Icons.av_timer,
+            )),
+            Container(
+              padding: EdgeInsets.all(AppPadding.p16 * 0.75),
+              margin: EdgeInsets.symmetric(horizontal: AppPadding.p16 / 2),
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+              ),
+              child: ClockWidget(),
+              // child: SvgPicture.asset("assets/icons/Search.svg"),
             ),
-            child: SvgPicture.asset("assets/icons/Search.svg"),
-          ),
+          ],
         ),
       ),
     );

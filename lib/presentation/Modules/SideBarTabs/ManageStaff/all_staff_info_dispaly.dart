@@ -47,6 +47,11 @@ class _AllStaffInfoDisplayState extends State<AllStaffInfoDisplay> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
+            "Staff Registration Key",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          getCube(2, context),
+          Text(
             "Manage Staff Members",
             style: Theme.of(context).textTheme.titleMedium,
           ),

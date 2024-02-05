@@ -12,7 +12,7 @@ class StaffEleavePage extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.all(30),
       children: [
-        Header(),
+        Header(tabName: "Eleave Requests"),
         getCube(5, context),
         EleaveStaffDisplay(),
       ],

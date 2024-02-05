@@ -20,8 +20,16 @@ abstract class AppConstants {
   static String userLocalAttendance = "userAttendance";
 
   ///Firebase Data
+  static String usersCollection = "Users";
   static String allStaffCollection = "Users/PPKstaff/members";
+  static String adminsData = "Admins";
+  static String adminEmail = "admin@ppk.com";
+  static String ppkAdminData = "PPKAdmin";
+  static String PPKstaff = "PPKstaff";
+  static String staffKey = "staffKey";
+
   static String lastAttend = "lastAttend";
+  static String lastLogin = "lastLogin";
 
   ///Attendance
   static String attendanceRecordCollection = "attendanceRecord";

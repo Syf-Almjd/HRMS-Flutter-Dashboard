@@ -8,17 +8,16 @@ class LogOutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 200))
-        .then((value) => showChoiceDialog(
-            context: context,
-            title: "Logout Admin User",
-            onNo: () {
-              TabsCubit.get(context).setTabScreen(Tabs.DashboardTab);
-            },
-            onYes: () {
-              TabsCubit.get(context).setTabScreen(Tabs.DashboardTab);
-              NaviCubit.get(context).navigateToSliderLogout(context);
-            }));
+    Future.delayed(Duration(milliseconds: 200)).then((_) => showChoiceDialog(
+        context: context,
+        title: "Logout Admin User",
+        onNo: () {
+          TabsCubit.get(context).setTabScreen(Tabs.DashboardTab);
+        },
+        onYes: () {
+          TabsCubit.get(context).setTabScreen(Tabs.DashboardTab);
+          NaviCubit.get(context).navigateToSliderLogout(context);
+        }));
     return Container();
   }
 }

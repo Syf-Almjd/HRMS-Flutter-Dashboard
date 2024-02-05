@@ -59,6 +59,12 @@ class _LoginState extends State<Login> {
           ),
           const SizedBox(height: 20),
           TextFormField(
+            onFieldSubmitted: (value) {
+              if (validateForm(_validateKey)) {
+                RemoteDataCubit.get(context)
+                    .adminUserLogin(email.text, pass.text, context);
+              }
+            },
             validator: (value) {
               if (value!.isEmpty || value.length <= 4) {
                 showToast("Wrong Password", Colors.red, context);
@@ -113,7 +119,7 @@ class _LoginState extends State<Login> {
               onPressed: () {
                 if (validateForm(_validateKey)) {
                   RemoteDataCubit.get(context)
-                      .userLogin(email.text, pass.text, context);
+                      .adminUserLogin(email.text, pass.text, context);
                 }
               }),
         ],

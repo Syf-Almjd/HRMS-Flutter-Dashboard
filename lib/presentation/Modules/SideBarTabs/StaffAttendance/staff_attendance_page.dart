@@ -12,7 +12,7 @@ class StaffAttendancePage extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.all(30),
       children: [
-        Header(),
+        Header(tabName: "Attendance"),
         getCube(5, context),
         AllStaffDisplay(),
       ],

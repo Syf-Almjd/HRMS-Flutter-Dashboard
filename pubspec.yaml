@@ -45,12 +45,11 @@ dependencies:
   shared_preferences: ^2.2.0
   file_picker: ^5.3.4
   url_launcher: ^6.1.12
-  dart_secure: ^0.5.0
   image_picker: ^1.0.4
   table_calendar: ^3.0.9
   toastification: ^1.1.0
   delayed_display: ^2.0.0
-
+  dart_secure: ^0.5.0
 
 dev_dependencies:
   device_preview: ^1.1.0

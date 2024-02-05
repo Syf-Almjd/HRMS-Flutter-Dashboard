@@ -60,7 +60,9 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Profile",
             svgSrc: "assets/icons/menu_profile.svg",
-            press: () {},
+            press: () {
+              TabsCubit.get(context).setTabScreen(Tabs.ProfileTab);
+            },
           ),
           DrawerListTile(
             title: "Log out",

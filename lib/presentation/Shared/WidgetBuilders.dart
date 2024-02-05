@@ -237,7 +237,7 @@ Widget previewImage(
                 borderRadius: BorderRadius.circular(photoRadius),
                 child: Image.memory(
                   fileUser,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),

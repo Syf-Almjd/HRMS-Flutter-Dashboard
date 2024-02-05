@@ -59,91 +59,93 @@ class _AddEventScreenState extends State<AddEventScreen> {
       body: Center(
         child: Container(
           width: getWidth(30, context),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              InkWell(
-                splashColor: Colors.transparent,
-                onTap: () {
-                  _imageBytes = null;
-                  _pickFile();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: getHeight(20, context),
-                    width: getWidth(45, context),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      shape: BoxShape.rectangle,
-                      color: Colors.grey.withOpacity(0.2),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InkWell(
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    _imageBytes = null;
+                    _pickFile();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: getHeight(20, context),
+                      width: getWidth(45, context),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        shape: BoxShape.rectangle,
+                        color: Colors.grey.withOpacity(0.2),
+                      ),
+                      child: (_imageBytes != null)
+                          ? previewImage(
+                              onTap: () {
+                                _imageBytes = null;
+                                _pickFile();
+                              },
+                              photoRadius: 20,
+                              context: context,
+                              fileUser: _imageBytes,
+                              editable: true)
+                          : chooseFile(context),
                     ),
-                    child: (_imageBytes != null)
-                        ? previewImage(
-                            onTap: () {
-                              _imageBytes = null;
-                              _pickFile();
-                            },
-                            photoRadius: 20,
-                            context: context,
-                            fileUser: _imageBytes,
-                            editable: true)
-                        : chooseFile(context),
                   ),
                 ),
-              ),
-              TextField(
-                controller: _titleController,
-                decoration: InputDecoration(labelText: 'Title'),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _locationName,
-                decoration: InputDecoration(labelText: 'Location Name'),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _locationLatitude,
-                decoration: InputDecoration(labelText: 'Location Latitude'),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _locationLongitude,
-                decoration: InputDecoration(labelText: 'Location Longitude'),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _dateController,
-                decoration: InputDecoration(labelText: 'Date'),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  loadButton(
-                    buttonWidth: getWidth(13, context),
-                    textSize: 13,
-                    onPressed: () {
-                      onSubmitted();
-                    },
-                    buttonText: 'Add',
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      NaviCubit.get(context).pop(context);
-                    },
-                    child: Text('Cancel'),
-                  ),
-                ],
-              ),
-            ],
+                TextField(
+                  controller: _titleController,
+                  decoration: InputDecoration(labelText: 'Title'),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _descriptionController,
+                  decoration: InputDecoration(labelText: 'Description'),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _locationName,
+                  decoration: InputDecoration(labelText: 'Location Name'),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _locationLatitude,
+                  decoration: InputDecoration(labelText: 'Location Latitude'),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _locationLongitude,
+                  decoration: InputDecoration(labelText: 'Location Longitude'),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _dateController,
+                  decoration: InputDecoration(labelText: 'Date'),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    loadButton(
+                      buttonWidth: getWidth(13, context),
+                      textSize: 13,
+                      onPressed: () {
+                        onSubmitted();
+                      },
+                      buttonText: 'Add',
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        NaviCubit.get(context).pop(context);
+                      },
+                      child: Text('Cancel'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

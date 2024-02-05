@@ -1,4 +1,5 @@
 import 'package:admin/presentation/Modules/SideBarTabs/Announcement/announcement_page.dart';
+import 'package:admin/presentation/Modules/SideBarTabs/Profile/profile_page.dart';
 import 'package:admin/presentation/Modules/SideBarTabs/StaffAttendance/staff_attendance_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +66,7 @@ class TabsCubit extends Cubit<TabsState> {
       case Tabs.logoutTab:
         return LogOutPage();
       case Tabs.ProfileTab:
-        return DashboardScreen();
+        return ProfilePage();
       default:
         return DashboardScreen();
     }

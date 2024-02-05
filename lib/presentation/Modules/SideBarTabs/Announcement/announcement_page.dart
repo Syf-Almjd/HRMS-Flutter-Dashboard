@@ -15,7 +15,7 @@ class AnnouncementPage extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.all(30),
       children: [
-        Header(),
+        Header(tabName: "Announcements"),
         getCube(5, context),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

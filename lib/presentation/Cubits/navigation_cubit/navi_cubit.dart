@@ -1,8 +1,10 @@
+import 'package:admin/presentation/Cubits/Tabs_cubit/tabs_cubit.dart';
 import 'package:dart_secure/dart_secure.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/local/localData_cubit/local_data_cubit.dart';
 import '../../../domain/entities/Authentication/AuthPage.dart';
 import '../../Modules/Authentication/Login/LoginUser.dart';
 
@@ -43,8 +45,10 @@ class NaviCubit extends Cubit<NaviState> {
     emit(AdminState());
   }
 
-  void navigateToSliderLogout(context) {
-    FirebaseAuth.instance.signOut();
+  Future<void> navigateToSliderLogout(context) async {
+    await FirebaseAuth.instance.signOut();
+    await TabsCubit.get(context).setTabScreen(Tabs.DashboardTab);
+    await LocalDataCubit.get(context).clearSharedAll();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => AuthPage()));
     emit(IntoPageState());

@@ -1,5 +1,6 @@
 import 'package:admin/config/utils/styles/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dart_secure/dart_secure.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,18 +58,69 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
     }
   }
 
-  //Firebase Login with current user data
-
-  Future<void> userLogin(String mail, String pwd, context) async {
+  //Firebase get current user data
+  Future<UserModel> getAdminData(context) async {
     emit(GettingData());
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: mail, password: pwd)
-          .then(
-              (value) => LocalDataCubit.get(context).updateSharedUser(context));
-      showToast("Successful Login", Colors.blue, context);
-      emit(GetDataSuccessful());
-      NaviCubit.get(context).navigateToHome(context);
+      if (FirebaseAuth.instance.currentUser?.email == AppConstants.adminEmail) {
+        final userSnapshot = await FirebaseFirestore.instance
+            .collection(AppConstants.adminsData)
+            .doc(AppConstants.ppkAdminData)
+            .get();
+        var userData = UserModel.fromJson(userSnapshot.data()!);
+        emit(GetDataSuccessful());
+        return userData;
+      } else {
+        emit(GetDataError());
+        showToast("Unauthorized", Colors.red, context);
+        return UserModel.loadingUser();
+      }
+    } on FirebaseAuthException {
+      emit(GetDataError());
+      rethrow;
+    }
+  }
+
+  //Firebase get current user data
+  Future<void> updateAdminData(UserModel userModel) async {
+    emit(GettingData());
+    try {
+      if (FirebaseAuth.instance.currentUser?.email == AppConstants.adminEmail) {
+        await FirebaseFirestore.instance
+            .collection(AppConstants.adminsData)
+            .doc(AppConstants.ppkAdminData)
+            .update(userModel.toJson());
+        emit(GetDataSuccessful());
+      } else {
+        emit(GetDataError());
+      }
+    } on FirebaseAuthException {
+      emit(GetDataError());
+      rethrow;
+    }
+  }
+
+  //Firebase Login with current user data
+  Future<void> adminUserLogin(String mail, String pwd, context) async {
+    emit(GettingData());
+    try {
+      String password = hashEncrypt(text: pwd, keyIV: mail.substring(0, 8));
+      if (mail == AppConstants.adminEmail) {
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: mail, password: password);
+
+        FirebaseFirestore.instance
+            .collection(AppConstants.adminsData)
+            .doc(AppConstants.ppkAdminData)
+            .update({AppConstants.lastLogin: DateTime.now().toString()});
+
+        showToast("Successful Login", Colors.blue, context);
+        emit(GetDataSuccessful());
+        NaviCubit.get(context).navigateToHome(context);
+      } else {
+        emit(GetDataError());
+        showToast("Login Failed!", Colors.red, context);
+      }
     } on FirebaseAuthException catch (e) {
       showToast("${e.message}", Colors.red, context);
       emit(GetDataError());
@@ -136,6 +188,43 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
       emit(GetDataSuccessful());
     } on FirebaseException catch (error) {
       showToast("Error in RegisterMethod $error", Colors.red, context);
+      emit(GetDataError());
+    }
+  }
+
+  Future<String> getRegistrationKey(context) async {
+    emit(GettingData());
+    try {
+      final userSnapshot = await FirebaseFirestore.instance
+          .collection(AppConstants.usersCollection)
+          .doc(AppConstants.PPKstaff)
+          .get();
+      if (userSnapshot.exists) {
+        emit(GetDataSuccessful());
+        return userSnapshot.data()![AppConstants.staffKey];
+      } else {
+        showToast("Error occurred", AppColors.redColor, context);
+        emit(GetDataError());
+        return "Error";
+      }
+    } on FirebaseAuthException catch (error) {
+      showToast("error $error", AppColors.redColor, context);
+      emit(GetDataError());
+      return "Error";
+    }
+  }
+
+  Future<void> updateRegistrationKey(newKey, context) async {
+    emit(GettingData());
+    try {
+      await FirebaseFirestore.instance
+          .collection(AppConstants.usersCollection)
+          .doc(AppConstants.PPKstaff)
+          .update({AppConstants.staffKey: newKey});
+
+      emit(GetDataSuccessful());
+    } on FirebaseAuthException catch (error) {
+      showToast("error $error", AppColors.redColor, context);
       emit(GetDataError());
     }
   }

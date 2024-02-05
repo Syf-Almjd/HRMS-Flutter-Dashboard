@@ -15,7 +15,7 @@ class EventsPage extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.all(30),
       children: [
-        Header(),
+        Header(tabName: "Events"),
         getCube(5, context),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

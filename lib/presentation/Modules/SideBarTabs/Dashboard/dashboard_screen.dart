@@ -16,7 +16,7 @@ class DashboardScreen extends StatelessWidget {
         padding: EdgeInsets.all(AppPadding.p14),
         child: Column(
           children: [
-            Header(),
+            Header(tabName: "Dashboard"),
             SizedBox(height: AppPadding.p16),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
