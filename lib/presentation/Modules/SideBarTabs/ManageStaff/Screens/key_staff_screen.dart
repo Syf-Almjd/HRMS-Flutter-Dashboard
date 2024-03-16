@@ -89,12 +89,13 @@ class _KeyStaffScreenState extends State<KeyStaffScreen> {
   }
 
   onSubmitted() {
-    if (keyInput.text.isNotEmpty) {
+    if (keyInput.text.isNotEmpty && keyInput.text.length >= 6) {
       RemoteDataCubit.get(context)
-          .updateRegistrationKey(keyInput, context)
+          .updateRegistrationKey(keyInput.text, context)
           .then((value) => NaviCubit.get(context).pop(context));
     } else {
-      showToast("Please fill in all details", AppColors.primaryColor, context);
+      showToast("Please give a code of length of 6 or more...",
+          AppColors.primaryColor, context);
     }
   }
 }

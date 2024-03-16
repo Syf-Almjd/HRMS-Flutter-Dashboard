@@ -1,6 +1,7 @@
 import 'package:admin/presentation/Cubits/navigation_cubit/navi_cubit.dart';
 import 'package:admin/presentation/Modules/SideBarTabs/ManageStaff/Screens/add_staff_screen.dart';
 import 'package:admin/presentation/Modules/SideBarTabs/ManageStaff/Screens/delete_staff_screen.dart';
+import 'package:admin/presentation/Modules/SideBarTabs/ManageStaff/Screens/key_staff_screen.dart';
 import 'package:admin/presentation/Shared/WidgetBuilders.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
@@ -47,11 +48,6 @@ class _AllStaffInfoDisplayState extends State<AllStaffInfoDisplay> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Staff Registration Key",
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          getCube(2, context),
-          Text(
             "Manage Staff Members",
             style: Theme.of(context).textTheme.titleMedium,
           ),
@@ -63,15 +59,29 @@ class _AllStaffInfoDisplayState extends State<AllStaffInfoDisplay> {
                 child:
                     Text("", style: TextStyle(fontSize: getHeight(3, context))),
               ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: TextButton.icon(
-                    onPressed: () {
-                      NaviCubit.get(context)
-                          .navigate(context, AddStaffScreen());
-                    },
-                    icon: Icon(Icons.add_circle_outline_rounded),
-                    label: Text("Add New Staff")),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: TextButton.icon(
+                        onPressed: () {
+                          NaviCubit.get(context)
+                              .navigate(context, KeyStaffScreen());
+                        },
+                        icon: Icon(Icons.key),
+                        label: Text("Staff Registration Key")),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: TextButton.icon(
+                        onPressed: () {
+                          NaviCubit.get(context)
+                              .navigate(context, AddStaffScreen());
+                        },
+                        icon: Icon(Icons.add_circle_outline_rounded),
+                        label: Text("Add New Staff")),
+                  ),
+                ],
               ),
             ],
           ),
@@ -100,10 +110,10 @@ class _AllStaffInfoDisplayState extends State<AllStaffInfoDisplay> {
                           label: Text("Last Active"),
                         ),
                         DataColumn(
-                          label: Text("User ID"),
+                          label: Text("Last Attend"),
                         ),
                         DataColumn(
-                          label: Text("Address"),
+                          label: Text("Last Eleave"),
                         ),
                         DataColumn(
                           label: Text(""),
@@ -166,14 +176,14 @@ DataRow staffInfoDataRow(UserModel userModel, context) {
       DataCell(Container(
         width: getWidth(5, context),
         child: Text(
-          userModel.userID,
+          userModel.lastAttend,
           overflow: TextOverflow.ellipsis,
         ),
       )),
       DataCell(Container(
           width: getWidth(7, context),
           child: Text(
-            userModel.address,
+            userModel.lastEleave,
             overflow: TextOverflow.ellipsis,
           ))),
       DataCell(TextButton(

@@ -23,6 +23,9 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
   static RemoteDataCubit get(context) => BlocProvider.of(context);
 
   ///FIREBASE DATA
+  delayedData() {
+    emit(GetDataError());
+  }
 
 // Imports all docs in Collection snapshot
   List<String> firebaseDocIDs(snapshot) {
@@ -233,7 +236,11 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
     await FirebaseAuth.instance.currentUser?.reauthenticateWithCredential(
         EmailAuthProvider.credential(
             email: FirebaseAuth.instance.currentUser!.email.toString(),
-            password: "admin1")); //TODO CHANGE it
+            password: hashEncrypt(
+                text: "admin1",
+                keyIV: FirebaseAuth.instance.currentUser!.email
+                    .toString()
+                    .substring(0, 8)))); //TODO CHANGE it
   }
 
   //annoucenment, evemts, attendence, eleave
@@ -562,12 +569,12 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
 
     try {
       final querySnapshot = await FirebaseFirestore.instance
-          .collection(AppConstants.attendanceStaffCollection)
+          .collection(AppConstants.allStaffCollection)
           .get();
 
       for (var element in querySnapshot.docs) {
         data[element.id] = await FirebaseFirestore.instance
-            .collection(AppConstants.attendanceStaffCollection)
+            .collection(AppConstants.allStaffCollection)
             .doc(element.id)
             .get()
             .then((value) => DateTime.parse(

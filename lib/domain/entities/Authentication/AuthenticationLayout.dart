@@ -33,14 +33,22 @@ class _SignLayoutState extends State<SignLayout> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         logoContainer(context),
-        Text(
-          "Welcome to TASKFORCE Admin Panel!",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColors.white,
-            fontSize: getWidth(2, context),
-          ),
-        )
+        Column(
+          children: [
+            Text(
+              "Welcome to TASKFORCE Admin Panel!",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: AppColors.white,
+                fontSize: getWidth(2, context),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Text("By: School of Computing and Informatics!"),
+            )
+          ],
+        ),
       ],
     );
   }
@@ -90,6 +98,13 @@ class _SignLayoutState extends State<SignLayout> {
               ),
             ),
           ),
+          getCube(2, context),
+          OutlinedButton(
+            onPressed: () {
+              openUrl("https://aiu.edu.my/");
+            },
+            child: Text("User Manual"),
+          )
         ],
       ),
     );

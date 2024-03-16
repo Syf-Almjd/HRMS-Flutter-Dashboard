@@ -1,3 +1,5 @@
+import 'dart:html' as html;
+
 import 'package:flutter/material.dart';
 
 import '../../../../../data/remote/RemoteData_cubit/RemoteData_cubit.dart';
@@ -49,7 +51,20 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.white,
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
+            child: IconButton(
+              icon: const Icon(Icons.print),
+              tooltip: 'Print it',
+              onPressed: () {
+                html.window.print();
+              },
+            ),
+          ),
+        ],
+      ),
       body: Visibility(
         visible: _isloaded,
         replacement: loadingAnimation(),

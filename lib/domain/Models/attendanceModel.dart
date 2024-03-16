@@ -5,6 +5,7 @@ class AttendanceModel {
   String userLocationLongitude;
   String userPhoto;
   String userCity;
+  String checkOutTime;
 
   AttendanceModel(
       {required this.dateTime,
@@ -12,21 +13,12 @@ class AttendanceModel {
       required this.userLocationLongitude,
       required this.userPhoto,
       required this.userCity,
+      required this.checkOutTime,
       required this.userUID});
-
-  factory AttendanceModel.loadingAttendance() {
-    return AttendanceModel(
-      dateTime: "Loading...",
-      userLocationLatitude: 'Loading...',
-      userPhoto: 'Loading...',
-      userLocationLongitude: 'Loading...',
-      userCity: 'Loading...',
-      userUID: 'Loading...',
-    );
-  }
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) {
     return AttendanceModel(
+      checkOutTime: json['checkOutTime'],
       dateTime: json['dateTime'],
       userUID: json['userUID'],
       userLocationLongitude: json['userLocationLongitude'],
@@ -38,6 +30,7 @@ class AttendanceModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'checkOutTime': checkOutTime,
       'dateTime': dateTime,
       'userUID': userUID,
       'userLocationLongitude': userLocationLongitude,

@@ -24,6 +24,7 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
   late TextEditingController _passwordController;
   late TextEditingController _phoneNumberController;
   late TextEditingController _addressController;
+
   String? _imageBytes;
 
   @override
@@ -157,9 +158,9 @@ class _AddStaffScreenState extends State<AddStaffScreen> {
         address: _addressController.text,
         photoID: _imageBytes!,
         userID: 'Newly registered',
-        lastLogin: "Newly registered",
-        lastAttend: 'Newly registered',
-        lastEleave: 'Newly registered',
+        lastLogin: DateTime.now().toString(),
+        lastAttend: DateTime.now().toString(),
+        lastEleave: DateTime.now().toString(),
       );
 
       RemoteDataCubit.get(context)
