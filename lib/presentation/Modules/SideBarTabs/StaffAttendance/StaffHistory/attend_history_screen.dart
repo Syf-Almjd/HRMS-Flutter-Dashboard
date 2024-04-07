@@ -1,3 +1,5 @@
+import 'dart:html' as html;
+
 import 'package:admin/presentation/Cubits/navigation_cubit/navi_cubit.dart';
 import 'package:flutter/material.dart';
 
@@ -54,6 +56,16 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
       // backgroundColor: Colors.white,
       appBar: AppBar(
         actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
+            child: IconButton(
+              icon: const Icon(Icons.print),
+              tooltip: 'Screenshot it',
+              onPressed: () {
+                html.window.print();
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
             child: IconButton(
