@@ -109,7 +109,7 @@ DataRow staffInfoDataRow(UserModel userModel, context) {
           // var model = await RemoteDataCubit.get(context)
           //     .getUserAttendanceHistory(userModel.userID, context);
           NaviCubit.get(context).navigate(
-              context, AttendanceHistoryScreen(userUID: userModel.userID));
+              context, AttendanceHistoryScreen(staffModel: userModel));
           // NaviCubit.get(context).navigate(context, StaffInfoScreen(model.last));
         },
         child: Text(

@@ -68,26 +68,22 @@ class _ProfileDisplayState extends State<ProfileDisplay> {
                 ),
               ),
               getCube(5, context),
-              Wrap(
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        NaviCubit.get(context).navigate(
-                            context,
-                            ModifyAdminScreen(
-                              userModel: userModel,
-                            ));
-                      },
-                      child: Text("Update Profile")),
-                  getCube(5, context),
-                  ElevatedButton(
-                      onPressed: () {
-                        showToast("Contact via: +601154225092",
-                            AppColors.primaryColor, context);
-                      },
-                      child: Text("Contact Developer")),
-                ],
-              ),
+              ElevatedButton(
+                  onPressed: () {
+                    NaviCubit.get(context).navigate(
+                        context,
+                        ModifyAdminScreen(
+                          userModel: userModel,
+                        ));
+                  },
+                  child: Text("Update Profile")),
+              getCube(5, context),
+              ElevatedButton(
+                  onPressed: () {
+                    showToast("Contact via: +601154225092",
+                        AppColors.primaryColor, context);
+                  },
+                  child: Text("Contact Developer")),
               getCube(5, context),
               ElevatedButton(
                   onPressed: () {

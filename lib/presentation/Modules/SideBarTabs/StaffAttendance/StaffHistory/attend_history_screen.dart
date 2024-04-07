@@ -1,15 +1,16 @@
-import 'dart:html' as html;
-
+import 'package:admin/presentation/Cubits/navigation_cubit/navi_cubit.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../data/remote/RemoteData_cubit/RemoteData_cubit.dart';
+import '../../../../../domain/Models/UserModel.dart';
 import '../../../../../domain/Models/attendanceModel.dart';
 import '../../../../Shared/Components.dart';
+import '../StaffReport/staff_report_generation.dart';
 import 'Builders/attend_history_card.dart';
 
 class AttendanceHistoryScreen extends StatefulWidget {
-  final String userUID;
-  const AttendanceHistoryScreen({required this.userUID});
+  final UserModel staffModel;
+  const AttendanceHistoryScreen({required this.staffModel});
 
   @override
   State<AttendanceHistoryScreen> createState() =>
@@ -34,7 +35,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
   Future<void> getData() async {
     try {
       List<AttendanceModel> data = await RemoteDataCubit.get(context)
-          .getUserAttendanceHistory(widget.userUID, context);
+          .getUserAttendanceHistory(widget.staffModel.userID, context);
 
       if (mounted) {
         setState(() {
@@ -59,7 +60,9 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
               icon: const Icon(Icons.print),
               tooltip: 'Print it',
               onPressed: () {
-                html.window.print();
+                NaviCubit.get(context)
+                    .navigate(context, StaffReportGenerator(widget.staffModel));
+                // html.window.print();
               },
             ),
           ),

@@ -10,7 +10,7 @@ class ClockWidget extends StatelessWidget {
       stream: Stream.periodic(const Duration(seconds: 1)),
       builder: (context, snapshot) {
         return Text(
-            "${DateTime.now().timeZoneName} ${DateFormat('hh:mm a, MM - dd - yyyy').format(DateTime.now())}");
+            "MY ${DateFormat('hh:mm a, MM - dd - yyyy').format(DateTime.now())}");
       },
     );
   }

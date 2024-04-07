@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:html' as html;
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../config/utils/managers/app_assets.dart';
@@ -405,7 +408,44 @@ Widget chooseFile(context) {
     ),
   );
 }
-//
+
+Future<void> saveExcel(excelFile) async {
+  // Request for storage permission (Assuming you're using a plugin for permission handling)
+  // You need to import the permission package.
+
+  // Get the directory for storing files
+  final directory = await getExternalStorageDirectory();
+  final path = directory?.path;
+
+  // Construct the file path
+  final filePath = '$path/excel_file.xlsx';
+
+  // Encode the Excel file
+  final encodedExcel = excelFile.encode();
+
+  // Write the file
+  final file = File(filePath);
+  await file.writeAsBytes(encodedExcel!);
+
+  // Display the file for download
+  final rawData = file.readAsBytesSync();
+  final content = base64Encode(rawData);
+  final anchor = html.AnchorElement(
+      href: "data:application/octet-stream;charset=utf-16le;base64,$content")
+    ..setAttribute("download", "excel_file.xlsx")
+    ..click();
+}
+
+// void shareFile(
+//   path,
+// ) async {
+//   try {
+//     await Share.shareXFiles([XFile(path)]);
+//   } catch (e) {
+//     rethrow;
+//   }
+// }
+
 // Widget getAppTabByIndex(index) {
 //   switch (index) {
 //     case 0:
