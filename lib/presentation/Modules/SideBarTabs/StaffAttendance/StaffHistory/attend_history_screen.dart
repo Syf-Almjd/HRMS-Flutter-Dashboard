@@ -59,7 +59,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
             child: IconButton(
-              icon: const Icon(Icons.print),
+              icon: const Icon(Icons.camera),
               tooltip: 'Screenshot it',
               onPressed: () {
                 html.window.print();

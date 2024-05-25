@@ -605,7 +605,10 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
             .doc(uid)
             .collection(AppConstants.attendanceRecordCollection)
             .doc(element.id)
-            .get();
+            .get(
+            );
+
+            
         if (documentSnapshot.data() != null) {
           data.add(AttendanceModel.fromJson(documentSnapshot.data()!));
         }
@@ -617,6 +620,8 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
       rethrow;
     }
   }
+
+
 
   Future<bool> recordEleaveRequest(EleaveModel eleaveModel, context) async {
     emit(GettingData());
