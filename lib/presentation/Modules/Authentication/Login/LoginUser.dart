@@ -115,6 +115,7 @@ class _LoginState extends State<Login> {
           // ),
           getCube(3, context),
           loadButton(
+              textSize: 20,
               buttonText: "Login",
               onPressed: () {
                 if (validateForm(_validateKey)) {

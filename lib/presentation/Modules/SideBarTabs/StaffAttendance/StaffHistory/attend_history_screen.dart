@@ -1,6 +1,7 @@
 import 'dart:html' as html;
 
 import 'package:admin/presentation/Cubits/navigation_cubit/navi_cubit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../data/remote/RemoteData_cubit/RemoteData_cubit.dart';
@@ -21,34 +22,32 @@ class AttendanceHistoryScreen extends StatefulWidget {
 
 class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
   List<AttendanceModel> attendanceList = [];
-  bool _isloaded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-  }
-
-  Future<void> getData() async {
-    try {
-      List<AttendanceModel> data = await RemoteDataCubit.get(context)
-          .getUserAttendanceHistory(widget.staffModel.userID, context);
-
-      if (mounted) {
-        setState(() {
-          attendanceList = data;
-          _isloaded = true;
-        });
-      }
-    } catch (error) {
-      debugPrint(error.toString());
-    }
-  }
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getData();
+  // }
+  //
+  // @override
+  // void deactivate() {
+  //   super.deactivate();
+  // }
+  //
+  // Future<void> getData() async {
+  //   try {
+  //     List<AttendanceModel> data = await ;
+  //
+  //     if (mounted) {
+  //       setState(() {
+  //         attendanceList = data;
+  //         _isloaded = true;
+  //       });
+  //     }
+  //   } catch (error) {
+  //     debugPrint(error.toString());
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
             child: IconButton(
-              icon: const Icon(Icons.print),
+              icon: const Icon(CupertinoIcons.printer),
               tooltip: 'Screenshot it',
               onPressed: () {
                 html.window.print();
@@ -69,32 +68,53 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
             child: IconButton(
-              icon: const Icon(Icons.print),
-              tooltip: 'Print it',
+              icon: const Icon(CupertinoIcons.cloud_download),
+              tooltip: 'Download current month!',
               onPressed: () {
-                NaviCubit.get(context)
-                    .navigate(context, StaffReportGenerator(widget.staffModel));
-                // html.window.print();
+                NaviCubit.get(context).navigate(
+                    context, StaffReportGenerator(widget.staffModel, false));
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
+            child: IconButton(
+              icon: const Icon(CupertinoIcons.download_circle),
+              tooltip: 'Download All Data',
+              onPressed: () {
+                NaviCubit.get(context).navigate(
+                    context, StaffReportGenerator(widget.staffModel, true));
               },
             ),
           ),
         ],
       ),
-      body: Visibility(
-        visible: _isloaded,
-        replacement: loadingAnimation(),
-        child: attendanceList.isEmpty
-            ? const Center(child: Text("There are no records yet. All Set!"))
-            : ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: List.generate(attendanceList.length, (index) {
-                  return AttendanceHistoryCard(
-                      attendanceRecord: attendanceList[index]);
-                }),
-              ),
-      ),
+      body: StreamBuilder(
+          stream: RemoteDataCubit.get(context)
+              .getUserAttendanceHistory(widget.staffModel.userID, context),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return loadingAnimation();
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text("Please try another time!"));
+            }
+            if (!snapshot.hasData) {
+              return Center(child: Text("There are no records yet. All Set!"));
+            }
+            attendanceList.add(snapshot.data as AttendanceModel);
+            return ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: attendanceList.length,
+              itemBuilder: (context, index) {
+                return AttendanceHistoryCard(
+                  attendanceRecord: attendanceList[index],
+                );
+              },
+            );
+          }),
     );
   }
 }

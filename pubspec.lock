@@ -421,6 +421,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_seo:
+    dependency: "direct main"
+    description:
+      name: flutter_web_seo
+      sha256: "58529d1a4939902ddf8218c42a2d7ff4f94391aa7297aec0ea0f36d9ac9eea22"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   freezed_annotation:
     dependency: transitive
     description:

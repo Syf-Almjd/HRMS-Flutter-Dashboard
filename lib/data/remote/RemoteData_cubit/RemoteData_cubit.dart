@@ -588,7 +588,8 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
     }
   }
 
-  Future<List<AttendanceModel>> getUserAttendanceHistory(uid, context) async {
+  Future<List<AttendanceModel>> getUserReportAttendanceHistory(
+      uid, context, count) async {
     emit(GettingData());
 
     List<Object> data = [];
@@ -599,22 +600,79 @@ class RemoteDataCubit extends Cubit<RemoteAppStates> {
           .doc(uid)
           .collection(AppConstants.attendanceRecordCollection)
           .get();
-      for (var element in querySnapshot.docs) {
+
+      for (var element in querySnapshot.docs.reversed) {
+        // Check if the count limit has been reached
+        if (data.length >= count) {
+          break; // Exit the loop if count limit reached
+        }
+
         final documentSnapshot = await FirebaseFirestore.instance
             .collection(AppConstants.attendanceStaffCollection)
             .doc(uid)
             .collection(AppConstants.attendanceRecordCollection)
             .doc(element.id)
             .get();
+
         if (documentSnapshot.data() != null) {
           data.add(AttendanceModel.fromJson(documentSnapshot.data()!));
         }
       }
+
       emit(GetDataSuccessful());
       return data.cast<AttendanceModel>().reversed.toList();
     } on FirebaseException {
       emit(GetDataError());
       rethrow;
+    }
+  }
+
+  // Stream<AttendanceModel> getUserAttendanceHistory(uid, context) async* {
+  //   emit(GettingData());
+  //   try {
+  //     final querySnapshot = await FirebaseFirestore.instance
+  //         .collection(AppConstants.attendanceStaffCollection)
+  //         .doc(uid)
+  //         .collection(AppConstants.attendanceRecordCollection)
+  //         .orderBy("dateTime", descending: false)
+  //         .limit(30)
+  //         .get();
+  //
+  //     for (var documentSnapshot in querySnapshot.docs) {
+  //       yield AttendanceModel.fromJson(documentSnapshot.data());
+  //     }
+  //
+  //     emit(GetDataSuccessful());
+  //   } catch (e) {
+  //     emit(GetDataError());
+  //     print(e.toString());
+  //   }
+  // }
+
+  Stream<AttendanceModel> getUserAttendanceHistory(uid, context) async* {
+    emit(GettingData());
+    int count = 0;
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection(AppConstants.attendanceStaffCollection)
+          .doc(uid)
+          .collection(AppConstants.attendanceRecordCollection)
+          .get();
+      for (var element in querySnapshot.docs.reversed) {
+        final documentSnapshot = await FirebaseFirestore.instance
+            .collection(AppConstants.attendanceStaffCollection)
+            .doc(uid)
+            .collection(AppConstants.attendanceRecordCollection)
+            .doc(element.id)
+            .get();
+        if (documentSnapshot.data() != null && count <= 5) {
+          yield AttendanceModel.fromJson(documentSnapshot.data()!);
+        }
+      }
+      emit(GetDataSuccessful());
+      // yield data.cast<AttendanceModel>().reversed.toList();
+    } on FirebaseException {
+      emit(GetDataError());
     }
   }
 

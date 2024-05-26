@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../../../../../../config/utils/styles/app_colors.dart';
 import '../../../../../../domain/Models/attendanceModel.dart';
+import '../../../../../Shared/CachedImage.dart';
 import '../../../../../Shared/Components.dart';
 import '../../../../../Shared/MapsLauncher.dart';
-import '../../../../../Shared/WidgetBuilders.dart';
 
 class AttendanceHistoryCard extends StatelessWidget {
   final AttendanceModel attendanceRecord;
@@ -22,14 +24,12 @@ class AttendanceHistoryCard extends StatelessWidget {
           // alignment: WrapAlignment.center,
           children: [
             SizedBox(
-              height: getHeight(25, context),
-              width: getWidth(25, context),
-              child: previewImage(
-                editable: false,
-                context: context,
-                fileUser: attendanceRecord.userPhoto,
-              ),
-            ),
+                height: getHeight(25, context),
+                width: getWidth(25, context),
+                child: Image(
+                  image: CacheMemoryImageProvider(attendanceRecord.dateTime,
+                      base64Decode(attendanceRecord.userPhoto)),
+                )),
             getCube(2, context),
             Container(
               height: getHeight(60, context),

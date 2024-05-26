@@ -12,7 +12,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class StaffReportGenerator extends StatefulWidget {
   final UserModel userModel;
-  const StaffReportGenerator(this.userModel);
+  final bool isFullDownload;
+  const StaffReportGenerator(this.userModel, this.isFullDownload);
 
   @override
   State<StaffReportGenerator> createState() => _StaffReportGeneratorState();
@@ -28,8 +29,14 @@ class _StaffReportGeneratorState extends State<StaffReportGenerator> {
   }
 
   getData() async {
-    staffReportList = await RemoteDataCubit.get(context)
-        .getUserAttendanceHistory(widget.userModel.userID, context);
+    if (widget.isFullDownload == false) {
+      staffReportList = await RemoteDataCubit.get(context)
+          .getUserReportAttendanceHistory(widget.userModel.userID, context, 30);
+    } else {
+      staffReportList = await RemoteDataCubit.get(context)
+          .getUserReportAttendanceHistory(
+              widget.userModel.userID, context, 1000);
+    }
     await createExcel();
     NaviCubit.get(context).pop(context);
   }

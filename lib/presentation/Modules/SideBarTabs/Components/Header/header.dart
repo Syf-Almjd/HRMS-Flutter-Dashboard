@@ -1,5 +1,6 @@
 import 'package:admin/domain/Models/UserModel.dart';
 import 'package:admin/presentation/Cubits/Tabs_cubit/tabs_cubit.dart';
+import 'package:admin/presentation/Shared/Components.dart';
 import 'package:admin/responsive.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class Header extends StatelessWidget {
               ),
             if (!Responsive.isMobile(context))
               Spacer(flex: Responsive.isDesktop(context) ? 1 : 1),
-            Expanded(child: SearchField()),
+            TimeField(),
             ProfileCard()
           ],
         ),
@@ -111,37 +112,46 @@ class ProfileCard extends StatelessWidget {
   }
 }
 
-class SearchField extends StatelessWidget {
-  const SearchField({
+class TimeField extends StatelessWidget {
+  const TimeField({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: AppColors.secondaryColor,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Icon(
-              Icons.av_timer,
-            )),
-            Container(
-              padding: EdgeInsets.all(AppPadding.p16 * 0.75),
-              margin: EdgeInsets.symmetric(horizontal: AppPadding.p16 / 2),
-              decoration: BoxDecoration(
-                color: AppColors.primaryColor,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-              ),
-              child: ClockWidget(),
-              // child: SvgPicture.asset("assets/icons/Search.svg"),
-            ),
-          ],
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: AppColors.secondaryColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: !Responsive.isDesktop(context)
+              ? Container()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Icon(
+                      Icons.av_timer,
+                    ),
+                    getCube(2, context),
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.all(AppPadding.p16 * 0.75),
+                        margin: EdgeInsets.symmetric(
+                            horizontal: AppPadding.p16 / 2),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: ClockWidget(),
+                        // child: SvgPicture.asset("assets/icons/Search.svg"),
+                      ),
+                    ),
+                  ],
+                ),
         ),
       ),
     );

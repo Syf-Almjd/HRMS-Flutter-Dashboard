@@ -10,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_web_seo/flutter_web_seo.dart';
 import 'package:provider/provider.dart';
 
 import 'config/bloc_observer.dart';
@@ -41,43 +42,45 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => MenuAppController(),
-          ),
-          BlocProvider<LocalDataCubit>(
-            create: (context) => LocalDataCubit(),
-          ),
-          BlocProvider<RemoteDataCubit>(
-            create: (context) => RemoteDataCubit(),
-          ),
-          BlocProvider<UserRegisterBloc>(
-            create: (context) => UserRegisterBloc(),
-          ),
-          BlocProvider<RegisterNavigationBloc>(
-            create: (context) => RegisterNavigationBloc(),
-          ),
-          BlocProvider<TabsCubit>(
-            create: (context) => TabsCubit(),
-          ),
-          BlocProvider<NaviCubit>(
-            create: (context) => NaviCubit(),
-          ),
-        ],
-        child: MaterialApp(
-            scrollBehavior: MaterialScrollBehavior().copyWith(
-              dragDevices: {
-                PointerDeviceKind.mouse,
-                PointerDeviceKind.touch,
-                PointerDeviceKind.stylus,
-                PointerDeviceKind.unknown
-              },
-            ),
-            builder: DevicePreview.appBuilder,
-            debugShowCheckedModeBanner: false,
-            title: AppConstants.appTitle,
-            theme: getDarkApplicationTheme(),
-            // darkTheme: getDarkApplicationTheme(),
-            home: AuthPage()));
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => MenuAppController(),
+        ),
+        BlocProvider<LocalDataCubit>(
+          create: (context) => LocalDataCubit(),
+        ),
+        BlocProvider<RemoteDataCubit>(
+          create: (context) => RemoteDataCubit(),
+        ),
+        BlocProvider<UserRegisterBloc>(
+          create: (context) => UserRegisterBloc(),
+        ),
+        BlocProvider<RegisterNavigationBloc>(
+          create: (context) => RegisterNavigationBloc(),
+        ),
+        BlocProvider<TabsCubit>(
+          create: (context) => TabsCubit(),
+        ),
+        BlocProvider<NaviCubit>(
+          create: (context) => NaviCubit(),
+        ),
+      ],
+      child: MaterialApp(
+              scrollBehavior: MaterialScrollBehavior().copyWith(
+                dragDevices: {
+                  PointerDeviceKind.mouse,
+                  PointerDeviceKind.touch,
+                  PointerDeviceKind.stylus,
+                  PointerDeviceKind.unknown
+                },
+              ),
+              builder: DevicePreview.appBuilder,
+              debugShowCheckedModeBanner: false,
+              title: AppConstants.appTitle,
+              theme: getDarkApplicationTheme(),
+              // darkTheme: getDarkApplicationTheme(),
+              home: AuthPage())
+          .seo(),
+    );
   }
 }

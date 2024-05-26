@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "taskforce-hrms"
+  },
+  "targets": {
+    "taskforce-hrms": {
+      "hosting": {
+        "ppk-hr": [
+          "ppk-hr"
+        ]
+      }
+    }
   }
 }

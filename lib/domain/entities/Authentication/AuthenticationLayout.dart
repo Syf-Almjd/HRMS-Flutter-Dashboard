@@ -45,7 +45,7 @@ class _SignLayoutState extends State<SignLayout> {
             ),
             Padding(
               padding: EdgeInsets.all(20),
-              child: Text("By: School of Computing and Informatics!"),
+              child: Text("Alaqsa Technology"),
             )
           ],
         ),
@@ -86,6 +86,7 @@ class _SignLayoutState extends State<SignLayout> {
               fontSize: getHeight(2, context),
             ),
           ),
+          getCube(1, context),
           Wrap(
             children: List.generate(
               socialMediaList.length,
@@ -101,7 +102,8 @@ class _SignLayoutState extends State<SignLayout> {
           getCube(2, context),
           OutlinedButton(
             onPressed: () {
-              openUrl("https://aiu.edu.my/");
+              openUrl(
+                  "https://firebasestorage.googleapis.com/v0/b/taskforce-hrms.appspot.com/o/Task%20Force%20HRMS%20User%20Manual%20.pdf?alt=media&token=9e016dfa-a4fb-467f-86ae-e35f20bf38eb");
             },
             child: Text("User Manual"),
           )

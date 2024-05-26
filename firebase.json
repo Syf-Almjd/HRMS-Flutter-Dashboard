@@ -1,5 +1,22 @@
 {
+
   "hosting": {
+    "target": "taskforce-hrms",
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "hosting": {
+    "target": "ppk-hr",
     "public": "build/web",
     "ignore": [
       "firebase.json",
